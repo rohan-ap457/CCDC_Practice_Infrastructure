@@ -11,7 +11,6 @@ Any information regarding the setup and use of the infrastructure, or any relate
 A style guide for this repository is provided in the [Markdown_Style](./Markdown_Style.md) file. It is likely not followed but it also contains some useful programs, and software when interacting with GitHub and Markdown.
 
 ## Table of Contents (README) <!-- omit from toc -->
-- [Table of Contents (TOPICS)](#table-of-contents-topics)
 - [Taiga Access](#taiga-access)
   - [Login/Register](#loginregister)
   - [Access Project](#access-project)
@@ -23,7 +22,7 @@ A style guide for this repository is provided in the [Markdown_Style](./Markdown
   - [System Info](#system-info)
   - [Steps to Access](#steps-to-access)
 
-## Table of Contents (TOPICS) 
+## Table of Contents (TOPICS) <!-- omit from toc -->
 * [Proxmox Setup](./Proxmox/README.md)
 * [Gluster](./Shared_Filesystem/Gluster/README.md)
 * [NFS](./Shared_Filesystem/NFSserver/README.md)
