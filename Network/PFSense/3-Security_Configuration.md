@@ -63,6 +63,21 @@ Additional Granularity
 ### DMZ Zone
 The Network interface for this may vary based on how the PFSense instance was configured. However in this case the interface is the OPT1 interface. 
 
+Example:
+| Protocol | SRC IP | DST IP | Source Port | Dest Port | 
+| -------- | ------ | ------ | ----------- | --------- |
+| TCP | OTP1 net | * | * | 53(DNS) |
+| UDP | OTP1 net | * | * | 53(DNS) | 
+| TCP | OTP1 net | * | * | 443(HTTPS) | 
+| TCP | OTP1 net | * | * | 80(HTTP) | 
+| TCP | * | OTP1 address | * | 443(HTTPS) | 
+<!--| TCP | OTP1 address | OTP1 net | * | 8080(Custom) |
+| TCP | OTP1 address | OTP1 net | * | 8081(Custom) | 
+| TCP | OTP1 address | OTP1 net | * | 8082(Custom) | 
+| TCP | OTP1 address | OTP1 net | * | 8083(Custom) | 
+For 8080 - 83 may need to make them * may not be needed as this is an outbound firewall -->
+
+
 
 
 ## Initial Firewall Config Linux
