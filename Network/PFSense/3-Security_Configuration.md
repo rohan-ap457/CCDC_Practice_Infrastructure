@@ -48,6 +48,8 @@ Example:
 | TCP | LAN net | * | * | 443(HTTPS) | 
 | TCP | LAN net | * | * | 80(HTTP) | 
 | TCP | * | LAN address | * | 443(HTTPS) | 
+| TCP | Linux Net | OPT Net | * | 1514(Wazuh) |
+
 
 Additional Granularity
 | Protocol | SRC IP | DST IP | Source Port | Dest Port | 
@@ -71,6 +73,8 @@ Example:
 | TCP | OTP1 net | * | * | 443(HTTPS) | 
 | TCP | OTP1 net | * | * | 80(HTTP) | 
 | TCP | * | OTP1 address | * | 443(HTTPS) | 
+| TCP | DMZ Net | Linux Net | * | 1514(Wazuh) |
+
 <!--| TCP | OTP1 address | OTP1 net | * | 8080(Custom) |
 | TCP | OTP1 address | OTP1 net | * | 8081(Custom) | 
 | TCP | OTP1 address | OTP1 net | * | 8082(Custom) | 
@@ -83,15 +87,57 @@ For 8080 - 83 may need to make them * may not be needed as this is an outbound f
 ## Initial Firewall Config Linux
 ### WAN (Router-Internal)
 This interface should always be accessible, otherwise you likely have misconfigured the router...
+| Protocol | SRC IP | DST IP | Source Port | Dest Port | 
+| -------- | ------ | ------ | ----------- | --------- |
+| TCP | DMZ net | This Firewall | * | 443(HTTPS) | <!-- Allow internal Access to Firewall -->
+| TCP | DMZ net | LAN net | * | 443(HTTPS) | <!-- Allow internal Access to Services -->
+| TCP | DMZ net | LAN net | * | 80(HTTP) |
+| TCP | Linux Net | LAN Net | * | 1514(Wazuh) |
+<!--| TCP | Windows Net | LAN Net| * | 636(LDAPS) | 
+| TCP | Windows Net | LAN Net| * | 389(LDAPS) |
+| UDP | Windows Net | LAN Net | * | 53(DNS) |
+| TCP | Windows Net | LAN Net | * | 53(DNS) | -->
 ### Linux-Net Zone
 The Network interface for this may vary based on how the PFSense instance was configured. However in this case the interface is the OPT1 interface. 
+Example:
+| Protocol | SRC IP | DST IP | Source Port | Dest Port | 
+| -------- | ------ | ------ | ----------- | --------- |
+| TCP | LAN net | * | * | 53(DNS) |
+| UDP | LAN net | * | * | 53(DNS) | 
+| TCP | LAN net | * | * | 443(HTTPS) | 
+| TCP | LAN net | * | * | 80(HTTP) | 
+| TCP | * | LAN address | * | 443(HTTPS) | 
+| TCP | Windows Net | LAN Net| * | 636(LDAPS) | 
+| TCP | Windows Net | LAN Net| * | 389(LDAPS) |
+<!--| TCP | Linux Net | Linux Net | * | 1514(Wazuh) | -->
 
 ## Initial Firewall Config Windows
 ### WAN (Router-Internal)
 This interface should always be accessible, otherwise you likely have misconfigured the router...
+| Protocol | SRC IP | DST IP | Source Port | Dest Port | 
+| -------- | ------ | ------ | ----------- | --------- |
+| TCP | DMZ net | This Firewall | * | 443(HTTPS) | <!-- Allow internal Access to Firewall -->
+| TCP | DMZ net | LAN net | * | 443(HTTPS) | <!-- Allow internal Access to Services -->
+| TCP | DMZ net | LAN net | * | 80(HTTP) |
+| TCP | DMZ net | LAN net| * | 3389(RDP)| 
+| UDP | DMZ net | LAN net| * | 3389(RDP)| 
+| TCP | Linux Net | LAN Net | * | 1514(Wazuh) |
+
 ### Windows-Net Zone
 The Network interface for this may vary based on how the PFSense instance was configured. However in this case the interface is the OPT1 interface. 
 
+| Protocol | SRC IP | DST IP | Source Port | Dest Port | 
+| -------- | ------ | ------ | ----------- | --------- |
+| TCP | LAN net | * | * | 53(DNS) |
+| UDP | LAN net | * | * | 53(DNS) | 
+| TCP | LAN net | * | * | 443(HTTPS) | 
+| TCP | LAN net | * | * | 80(HTTP) | 
+| TCP | LAN net | DMZ net | * | 3389(RDP)| 
+| UDP | LAN net | DMZ net | * | 3389(RDP)| 
+| TCP | * | LAN address | * | 443(HTTPS) | 
+| TCP | Windows Net | LAN Net | * | 636(LDAPS) | 
+| TCP | Windows Net | LAN Net | * | 389(LDAPS) |
+| TCP | Windows Net | Linux Net | * | 1514(Wazuh) |
 
 ## Packages 
 1. There is a Suricata extension
