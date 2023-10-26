@@ -1,0 +1,94 @@
+documentclass{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikzsymbols}
+\usepackage{float}
+
+\lstset{
+    basicstyle=\ttfamily,
+    backgroundcolor=\color{gray!30},
+}
+
+\title{Overview}
+\begin{document}
+\maketitle
+
+\graphicspath{ {./Images/} }
+\tableofcontents
+
+\section{Introduction}
+I was dissatisfied with most of what I have done. It is maybe passable as bad technical documentation, but it does not get at the heart of the operating system,
+the \textit{why} of windows. So here I will explain things at a more conceptual level. Hopefully it is helpful.
+
+\section{Firewalls}
+\subsection{TCP View}
+
+\subsection{netstat}
+netstat -anob
+
+-a: Displays all active network connections and listening ports.
+
+-n: Displays addresses and port numbers in numerical form (rather than resolving names).
+
+-o: Displays the owning process ID associated with each connection.
+
+-b: Displays the executable involved in creating the connection or listening port. Note: Using -b can be slow and might require elevated privileges.
+
+\section{Active Directory}
+\subsection{Initial Account}
+The domain controller administrator account is the same account as the local administrator account. So if you disable the local administrator on the DC,
+that will also disable the domain administrator. So don't do that!
+
+\subsection{Disabling does not log out}
+Merely disabling a user does not log them out. You also need to logoff the user. I have a script to do it.
+
+\subsection{Kerberos / Kerberoasting}
+
+\subsection{Service Accounts}
+
+\subsection{Groups}
+
+\subsection{Attacking DSRM password}
+
+\subsection{Adding Linux to AD}
+
+\section{Certificates}
+\subsection{What is a certificate, what are we signing}
+\subsection{Setting up auto enrollement}
+\subsection{Client vs Server Certificates}
+
+\subsection{Web Enrollement}
+Chain of trust
+
+http://<YourCA_Server_Name>/certsrv
+
+\subsection{Certificate Templates}
+
+\section{Processes}
+
+\section{Services}
+\subsection{Task Scheduler}
+
+\section{DLLs}
+
+\section{IIS}
+ApplicationPoolIdentity: This is a unique identity for each application pool. It runs under a dynamically created, less privileged account. Starting from IIS 7.5, this became the default and is generally recommended because it provides a higher level of isolation between different web applications.
+
+If you select "Use the built-in application pool identity", it will use the ApplicationPoolIdentity, which is the default and a safer option for running your web applications.
+
+\section{DNS}
+\subsection{Default Entries}
+\subsection{Domain Transfers}
+\subsection{DNSSEC}
+\subsection{Reverse Lookups (bad)}
+\subsection{Types of records}
+
+\section{Registry}
+\subsection{Autostart Locations}
+\subsection{Password Filters}
+When a user attempts to change their password or an administrator tries to reset it, the system will call functions in all registered password filter DLLs to validate the new password.
+Registry Check: Examine the aforementioned registry key (HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\Notification Packages) to see if any non-default entries are present. Default values typically include entries like "scecli" but any additional values could indicate the presence of a custom password filter.
+
+\section{Drivers}

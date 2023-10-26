@@ -5,6 +5,7 @@
 \usepackage{xcolor}
 \usepackage{tikzsymbols}
 \usepackage{float}
+\usepackage{enumitem}
 
 \lstset{
     basicstyle=\ttfamily,
@@ -191,5 +192,27 @@ Now that your machine is set up with good defaults, it is time to clone it. Go t
 Then right click the template and click "Clone". Make sure the Clone has Mode: Linked Clone set, so you can save a lot of file space (Windows bloat \Vomey{}).
 
 If you get errors when creating VMs in proxmox, you can view the file /var/log/pve/tasks/index for information
+
+\section{Adding Hard Drive Space}
+
+Expanding the virtual disk for a Windows VM in Proxmox involves both adjusting settings in Proxmox and then making changes within the Windows operating system. Follow the steps below to achieve this:
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textit{Expand the Virtual Disk in Proxmox}:
+    \begin{itemize}
+        \item Navigate to Proxmox Web UI.
+        \item Select the target VM.
+        \item Navigate to \textit{Hardware} $\to$ \textit{Hard Disk} $\to$ \textit{Resize}.
+    \end{itemize}
+    
+    \item \textit{Expand the Disk Inside Windows}:
+    \begin{itemize}
+        \item Press `Windows + R', type \texttt{diskmgmt.msc}, and press Enter to open \textit{Disk Management}.
+        \item Locate your main partition (e.g., C:) and the segment of unallocated space in the graphical representation at the bottom.
+        \item Right-click on the main partition and select \textit{Extend Volume}.
+        \item Follow the \textit{Extend Volume Wizard}, usually accepting the default values.
+        \item Upon completion, the main partition should utilize the newly added space.
+    \end{itemize}
+\end{enumerate}
 
 \end{document}

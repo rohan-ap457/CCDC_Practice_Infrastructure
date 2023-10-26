@@ -48,9 +48,20 @@ There are some very quick and easy ways to harden active directory.
         \item Change your password to something random and good
         \item At some point, you can make a new administrator account with an unusual username. You can keep the old account around as a honeypot if you want
         \item After disabling accounts, you must kick them off of the machine! Merely disabling the account does not kick the user off of the machine
+        \item After dsablign an account, you should also remove all of its groups and permissions. In case it is ever re-enabled.
         \item You must also view the ssh connections and kick them off. (both ssh and rdp)
         \item Look at GPO and disable any malicious policies, such as policies that disable microsoft defender.
+        \item Shorten the lifetime of tickets to try to prevent Golden Ticket / Silver Ticket attacks
 \end{enumerate}
+
+Change the passwords for all user and service accounts.
+
+Invalidate all tickets with the command 
+\begin{lstlisting}
+    klist purge
+\end{lstlisting}
+This prevents Golden Ticket and Silver Ticket attacks.
+
 
 \section{Local Account Freebies}
 In addition to active directory, your computer has a local directory of users. These include the Guest user.
@@ -118,6 +129,22 @@ or hijack the execution of legitimate programs
 Banning IPs makes me paranoid of accidentally ``red teaming" myself, but it can be a good idea.
 
 I will look into this program called \href{https://github.com/DigitalRuby/IPBan}{IP Ban}.
+
+\subsection{Limiting Workstation to Workstation communication}
+To prevent lateral movement across the domain by an attacker, we should restrict workstation to workstation communication.
+This can be done by setting the default outbound policy to "allow".
+Set the default inbound policy to "block".
+Allow:
+\begin{enumerate}
+    \item TCP \& UDP port 53 (DNS)
+    \item TCP \& UDP Port 88 (Kerberos)
+    \item TCP port 389 and 636 (LDAP and LDAPS)
+    \item TCP port 3389 for RDP
+\end{enumerate}
+
+Create a rule that blocks all inbound traffic where the source and destination are both in the subnet range used by workstations. 
+This will effectively deny workstation-to-workstation communication.
+
 
 \section{Red Team Gimmicks}
 \epigraph{I was surprised by it, but I wasn’t surprised that I was surprised. I expected a surprise, I just wasn’t sure which one.}

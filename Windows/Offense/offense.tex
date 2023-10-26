@@ -145,6 +145,63 @@ TODO: add more potential vulnerabilities, explain this one more.
     \item \href{https://www.cisa.gov/news-events/alerts/2020/06/05/unpatched-microsoft-systems-vulnerable-cve-2020-0796}{CISA Alert on CVE-2020-0796} - CISA giving resources on EternalDarkness/GhostSMB.    
 \end{itemize}
 
+\section{Stupid Active Directory Things}
+These are the low hanging fruit. 
+However, they are not obvious as windows is very convoluted.
+
+In AD, to view accounts marked as "IsCriticalSystemObject", the user has to 
+click the ``view -> advanced features" option. This is stupid and not obvious.
+So you can just make an account and mark it as "isCriticalSystemObject"
+and it will be much more difficult to see.
+
+You can set IsCriticalSystemObject from \href{https://theitbros.com/adsi-edit/}{adsi edit}
+or you can do it from powershell like 
+
+Setting IsCriticalSystemObject can interfere with the replication of the account (?)
+
+To run the script, you must have the permissions of a domain admin (can log in explicilty as a domain
+admin like administrator@cyber).
+\section{Mimikatz}
+Mimikatz can be used to create Golden and Silver tickets.
+These can be used to access system resources even if an account is locked or disabled.
+
+\subsection{Working Principles of Mimikatz}
+
+Mimikatz is a well-known post-exploitation tool designed for Windows environments. It targets the Local Security Authority Subsystem Service (LSASS) to extract credentials and perform various forms of attacks. Here are its primary functionalities:
+
+\begin{itemize}
+    \item \textbf{LSASS Targeting:} Mimikatz injects a Dynamic Link Library (DLL) into the LSASS process to extract sensitive credential information stored in memory.
+    \item \textbf{Credential Dumping:} It is capable of obtaining plaintext passwords, NTLM hashes, and Kerberos tickets.
+    \item \textbf{Overpass-The-Hash and Pass-The-Hash:} Mimikatz can use NTLM hashes to request Kerberos tickets or authenticate directly to other services.
+    \item \textbf{Ticket Manipulation:} It can craft or manipulate Kerberos Golden and Silver Tickets.
+    \item \textbf{DPAPI Interaction:} Mimikatz can decrypt credentials stored by the Data Protection API (DPAPI).
+\end{itemize}
+
+\subsection{What is a Kerberos ticket}
+
+\subsection{Golden and Silver Tickets}
+\paragraph{Silver Tickets:} 
+These are Kerberos tickets that are used for a 
+particular service and are generated using the Service Account's secret key. 
+They are essentially 'forged' tickets that can be used to access specific 
+services as a legitimate user. An attacker could use a silver ticket to 
+impersonate a user and gain unauthorized access to network resources.
+
+Silver tickets require elevated privileges, but not necessarily on the DC.
+
+Silver Tickets remain valid as long as the service account password hasn't changed.
+
+\paragraph{Golden Tickets:}
+These are more powerful than silver tickets. 
+A golden ticket is a TGT that is forged with the Key Distribution Center’s 
+(KDC) secret key (KRBTGT). It can grant access to any resource within the domain,
+ effectively making the holder a superuser. Golden tickets are generally the
+ result of an attacker having compromised the domain controller.
+
+ Golden tickets require Domain-Admin level privileges.
+
+Golden Tickets remain valid as long as the KRBTGT account's password (or rather, its hash) remains the same.
+
 \section{Malware to look into}
 Here is some random stuff so I don't forget to look into it:
 \begin{itemize}
