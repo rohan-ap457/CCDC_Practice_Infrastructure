@@ -1,0 +1,5 @@
+What we did before the meeting:
+This weeks task was to set up infrastructure. Our part was dns. Looked up how to set up a dns server. Found some links on how to set it up but I understood part of it but not everything so when I attempted to set up the server we ran into password issues multiple times and couldn’t solve much till the password was changed to something we all knew which was the default password. We tried to set it up with the parts we understood but definitely lacked full knowledge to set it properly. Which we need to improve on for next time.
+
+What we did during the meeting:
+As blue team this meeting we were on setting up apache and it did not go well as we kept getting logged out every 5 minutes or so by them getting into our machine and we also had a fingerprint changed warning which was the red team actively in our system and had change the fingerprint from what we save dit as when we first logged in as. Also it was said it was probably a man in a middle attack when the message popped up.
